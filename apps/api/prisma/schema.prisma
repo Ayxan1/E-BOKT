@@ -1,0 +1,453 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Branch {
+  id          Int      @id @default(autoincrement()) @map("branch_id")
+  name        String   @map("branch_name")
+  address     String
+  phoneNumber String   @map("phone_number")
+  director    String   @default("")
+  headOffice  Boolean  @default(false) @map("head_office")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  users       User[]
+  loans       Loan[]
+
+  @@map("branches")
+}
+
+model User {
+  id                Int        @id @default(autoincrement())
+  username          String     @unique
+  fullName          String     @map("user_full_name")
+  phoneNumber       String     @default("") @map("phone_number")
+  status            String     @default("ACTIVE")
+  admin             Boolean    @default(false)
+  branchId          Int        @map("branch_id")
+  branch            Branch     @relation(fields: [branchId], references: [id])
+  note              String     @default("")
+  passwordHash      String     @map("password_hash")
+  maxFailedAttempts Int        @default(5) @map("max_failed_attempts")
+  failedAttempts    Int        @default(0) @map("failed_attempts")
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime   @updatedAt @map("updated_at")
+  roles             UserRole[]
+  representedLoans  Loan[]     @relation("LoanRepresentative")
+
+  @@map("users")
+}
+
+model Role {
+  id          Int              @id @default(autoincrement())
+  name        String           @unique
+  description String           @default("")
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          Int              @id @default(autoincrement())
+  code        String           @unique
+  description String           @default("")
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       Int        @map("role_id")
+  permissionId Int        @map("permission_id")
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  userId Int  @map("user_id")
+  roleId Int  @map("role_id")
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Customer {
+  id                  Int                @id @default(autoincrement())
+  customerNo          String             @unique @map("customer_no")
+  customerType        Int                @map("customer_type")
+  firstName           String             @default("") @map("first_name")
+  lastName            String             @default("") @map("last_name")
+  fatherName          String             @default("") @map("father_name")
+  fullName            String             @map("full_name")
+  uniqueNo            String             @unique @map("unique_no")
+  executorFin         String             @default("") @map("executor_fin")
+  activityType        String             @default("") @map("activity_type")
+  activityCode        String             @default("") @map("activity_code")
+  sector              String             @default("")
+  residencyStatus     String             @map("residency_status")
+  registrationAddress String             @map("registration_address")
+  actualAddress       String             @map("actual_address")
+  note                String             @default("")
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @updatedAt @map("updated_at")
+  document            CustomerDocument?
+  workplaces          Workplace[]
+  phones              Phone[]
+  parties             RelatedParty[]
+  files               CustomerFile[]
+  loans               Loan[]
+
+  @@map("customers")
+}
+
+model CustomerDocument {
+  id            Int       @id @default(autoincrement())
+  customerId    Int       @unique @map("customer_id")
+  customer      Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  series        String
+  number        String
+  issueDate     DateTime? @map("issue_date") @db.Date
+  issuePlace    String    @default("") @map("issue_place")
+  expiryDate    DateTime? @map("expiry_date") @db.Date
+  citizenship   String    @default("")
+  birthDate     DateTime? @map("birth_date") @db.Date
+  maritalStatus String    @default("") @map("marital_status")
+  gender        String    @default("")
+
+  @@map("customer_documents")
+}
+
+model Workplace {
+  id             Int      @id @default(autoincrement())
+  customerId     Int      @map("customer_id")
+  customer       Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  workplaceType  String   @map("workplace_type")
+  workplaceName  String   @map("workplace_name")
+  position       String   @default("")
+  monthlyIncome  Decimal  @default(0) @map("monthly_income") @db.Decimal(18, 2)
+  workExperience String   @default("") @map("work_experience")
+  note           String   @default("")
+
+  @@map("workplaces")
+}
+
+model Phone {
+  id          Int      @id @default(autoincrement())
+  customerId  Int      @map("customer_id")
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  phoneNumber String   @map("phone_number")
+  phoneType   String   @map("phone_type")
+  isPrimary   Boolean  @default(false) @map("is_primary")
+  note        String   @default("")
+
+  @@map("phones")
+}
+
+model RelatedParty {
+  id         Int      @id @default(autoincrement())
+  customerId Int      @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type       String
+  fullName   String   @map("full_name")
+  share      Decimal? @db.Decimal(6, 2)
+  finVoen    String   @map("fin_voen")
+  note       String   @default("")
+
+  @@map("related_parties")
+}
+
+model CustomerFile {
+  id         Int      @id @default(autoincrement())
+  customerId Int      @map("customer_id")
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  fileName   String   @map("file_name")
+  fileType   String   @map("file_type")
+  fileKey    String   @map("file")
+  note       String   @default("")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("customer_files")
+}
+
+model CreditProduct {
+  id             Int               @id @default(autoincrement())
+  productCode    Int               @unique @map("product_code")
+  productName    String            @map("product_name")
+  creditType     String            @map("credit_type")
+  controlEnabled Boolean           @default(false) @map("control_enabled")
+  maxTerm        Int               @default(0) @map("max_term")
+  note           String            @default("")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+  conditions     CreditCondition[]
+  dtiRules       DtiCondition[]
+  ltvRules       LtvCondition[]
+  loans          Loan[]
+
+  @@map("credit_products")
+}
+
+model CreditCondition {
+  id                     Int           @id @default(autoincrement())
+  productId              Int           @map("product_id")
+  product                CreditProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  currency               String        @default("AZN")
+  amountMin              Decimal       @map("amount_min") @db.Decimal(18, 2)
+  amountMax              Decimal       @map("amount_max") @db.Decimal(18, 2)
+  termMinDays            Int           @map("term_min_days")
+  termMaxDays            Int           @map("term_max_days")
+  annualInterestRateMin  Decimal       @map("annual_interest_rate_min") @db.Decimal(9, 4)
+  annualInterestRateMax  Decimal       @map("annual_interest_rate_max") @db.Decimal(9, 4)
+
+  @@map("credit_conditions")
+}
+
+model DtiCondition {
+  id         Int           @id @default(autoincrement())
+  productId  Int           @map("product_id")
+  product    CreditProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  dtiRate    Decimal       @map("dti_rate") @db.Decimal(9, 4)
+  salaryMin  Decimal       @map("salary_min") @db.Decimal(18, 2)
+  salaryMax  Decimal       @map("salary_max") @db.Decimal(18, 2)
+
+  @@map("dti_conditions")
+}
+
+model LtvCondition {
+  id                 Int           @id @default(autoincrement())
+  productId          Int           @map("product_id")
+  product            CreditProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  collateralType     String        @map("collateral_type")
+  ltvRate            Decimal       @map("ltv_rate") @db.Decimal(9, 4)
+  creditCurrency     String        @map("credit_currency")
+  collateralCurrency String        @map("collateral_currency")
+
+  @@map("ltv_conditions")
+}
+
+model DictionaryItem {
+  id        Int     @id @default(autoincrement())
+  group     String
+  code      String
+  label     String
+  sortOrder Int     @default(0) @map("sort_order")
+  active    Boolean @default(true)
+
+  @@unique([group, code])
+  @@map("dictionary_items")
+}
+
+model FieldDefinition {
+  id        Int     @id @default(autoincrement())
+  entity    String
+  code      String
+  label     String
+  dataType  String  @map("data_type")
+  required  Boolean @default(false)
+  section   String  @default("extra")
+  sortOrder Int     @default(0) @map("sort_order")
+  active    Boolean @default(true)
+
+  @@unique([entity, code])
+  @@map("field_definitions")
+}
+
+model FieldValue {
+  id        Int    @id @default(autoincrement())
+  entity    String
+  entityId  Int    @map("entity_id")
+  fieldCode String @map("field_code")
+  value     String @default("")
+
+  @@unique([entity, entityId, fieldCode])
+  @@map("field_values")
+}
+
+model Account {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique
+  name        String
+  accountType String    @map("account_type")
+  currency    String
+  branchId    Int?      @map("branch_id")
+  status      String    @default("OPEN")
+  postings    Posting[]
+
+  @@map("accounts")
+}
+
+model LedgerTransaction {
+  id             Int       @id @default(autoincrement())
+  reference      String    @unique
+  businessDate   DateTime  @map("business_date") @db.Date
+  branchId       Int?      @map("branch_id")
+  module         String
+  status         String    @default("POSTED")
+  idempotencyKey String    @unique @map("idempotency_key")
+  createdBy      Int       @map("created_by")
+  postedAt       DateTime  @default(now()) @map("posted_at")
+  postings       Posting[]
+
+  @@map("ledger_transactions")
+}
+
+model Posting {
+  id            Int               @id @default(autoincrement())
+  transactionId Int               @map("transaction_id")
+  transaction   LedgerTransaction @relation(fields: [transactionId], references: [id])
+  accountId     Int               @map("account_id")
+  account       Account           @relation(fields: [accountId], references: [id])
+  direction     String
+  amount        Decimal           @db.Decimal(18, 2)
+  currency      String
+
+  @@map("postings")
+}
+
+model Sequence {
+  name  String @id
+  value Int
+
+  @@map("sequences")
+}
+
+model Loan {
+  id                Int               @id @default(autoincrement())
+  operationCode     Int               @unique @map("operation_code")
+  contractNo        String            @unique @map("contract_no")
+  loanNo            String            @unique @map("loan_no")
+  customerId        Int               @map("customer_id")
+  customer          Customer          @relation(fields: [customerId], references: [id])
+  branchId          Int               @map("branch_id")
+  branch            Branch            @relation(fields: [branchId], references: [id])
+  amount            Decimal           @db.Decimal(18, 2)
+  currency          String
+  representativeId  Int?              @map("representative_id")
+  representative    User?             @relation("LoanRepresentative", fields: [representativeId], references: [id])
+  annualRate        Decimal           @map("annual_interest_rate") @db.Decimal(9, 4)
+  penaltyRate       Decimal           @default(0) @map("penalty_rate") @db.Decimal(9, 4)
+  graceMonths       Int               @default(0) @map("grace_months")
+  productId         Int               @map("product_id")
+  product           CreditProduct     @relation(fields: [productId], references: [id])
+  commission        Decimal           @default(0) @db.Decimal(18, 2)
+  disbursementDate  DateTime          @map("disbursement_date") @db.Date
+  termMonths        Int               @map("term_months")
+  termDays          Int               @default(0) @map("term_days")
+  scheduleType      String            @default("ANNUITY") @map("schedule_type")
+  standardCode      String            @default("STANDARD") @map("standard_code")
+  monthlyPayment    Decimal           @default(0) @map("monthly_payment") @db.Decimal(18, 2)
+  maturityDate      DateTime          @map("maturity_date") @db.Date
+  firstPaymentDate  DateTime?         @map("first_payment_date") @db.Date
+  purpose           String            @default("")
+  status            String            @default("WAITING")
+  createdBy         Int               @map("created_by")
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+  installments      LoanInstallment[]
+  collaterals       LoanCollateral[]
+
+  @@map("loans")
+}
+
+model LoanInstallment {
+  id        Int      @id @default(autoincrement())
+  loanId    Int      @map("loan_id")
+  loan      Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  monthNo   Int      @map("month_no")
+  dueDate   DateTime @map("due_date") @db.Date
+  principal Decimal  @db.Decimal(18, 2)
+  interest  Decimal  @db.Decimal(18, 2)
+  total     Decimal  @db.Decimal(18, 2)
+  balance   Decimal  @db.Decimal(18, 2)
+
+  @@unique([loanId, monthNo])
+  @@map("loan_installments")
+}
+
+model Collateral {
+  id                Int              @id @default(autoincrement())
+  uniqueNo          String           @unique @map("unique_no")
+  type              String
+  ownerName         String           @map("owner_name")
+  appraiser         String           @default("")
+  appraisalDate     DateTime?        @map("appraisal_date") @db.Date
+  marketValue       Decimal          @default(0) @map("market_value") @db.Decimal(18, 2)
+  liquidationValue  Decimal          @default(0) @map("liquidation_value") @db.Decimal(18, 2)
+  currency          String           @default("AZN")
+  note              String           @default("")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  items             CollateralItem[]
+  loans             LoanCollateral[]
+
+  @@map("collaterals")
+}
+
+model CollateralItem {
+  id                Int        @id @default(autoincrement())
+  collateralId      Int        @map("collateral_id")
+  collateral        Collateral @relation(fields: [collateralId], references: [id], onDelete: Cascade)
+  name              String
+  unitCode          String     @default("GRAM") @map("unit_code")
+  fineness          String     @default("")
+  quantity          Int        @default(0)
+  unitPrice         Decimal    @default(0) @map("unit_price") @db.Decimal(18, 2)
+  stoneWeight       Decimal    @default(0) @map("stone_weight") @db.Decimal(18, 3)
+  netWeight         Decimal    @default(0) @map("net_weight") @db.Decimal(18, 3)
+  grossWeight       Decimal    @default(0) @map("gross_weight") @db.Decimal(18, 3)
+  liquidationValue  Decimal    @default(0) @map("liquidation_value") @db.Decimal(18, 2)
+
+  @@map("collateral_items")
+}
+
+model LoanCollateral {
+  id           Int        @id @default(autoincrement())
+  loanId       Int        @map("loan_id")
+  loan         Loan       @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  collateralId Int        @map("collateral_id")
+  collateral   Collateral @relation(fields: [collateralId], references: [id], onDelete: Cascade)
+  amount       Decimal    @db.Decimal(18, 2)
+
+  @@unique([loanId, collateralId])
+  @@map("loan_collaterals")
+}
+
+model BusinessCalendar {
+  id           Int      @id
+  businessDate DateTime @map("business_date") @db.Date
+
+  @@map("business_calendar")
+}
+
+model EodJournal {
+  id           Int      @id @default(autoincrement())
+  businessDate DateTime @map("business_date") @db.Date
+  status       String
+  closedBy     Int      @map("closed_by")
+  closedAt     DateTime @default(now()) @map("closed_at")
+
+  @@map("eod_journal")
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  entity    String
+  entityId  String   @map("entity_id")
+  action    String
+  userId    Int?     @map("user_id")
+  payload   Json
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("audit_log")
+}

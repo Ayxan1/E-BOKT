@@ -1,0 +1,17 @@
+{
+  "name": "ebokt",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @ebokt/api\" \"npm run dev -w @ebokt/web\"",
+    "db:up": "docker compose up -d",
+    "db:setup": "npm run build -w @ebokt/domain && npm run db:deploy -w @ebokt/api && npm run seed -w @ebokt/api",
+    "test": "npm run test -w @ebokt/domain"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

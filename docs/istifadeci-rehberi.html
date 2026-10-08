@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<title>BOKT Lombard — istifadəçi təlimatı</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: #1c2430;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11.5pt;
+    line-height: 1.45;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 26pt;
+    line-height: 1.15;
+    color: #151c29;
+    font-weight: 650;
+  }
+  h1 + p { color: #3d4858; }
+  h2 {
+    break-before: page;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #8d6b32;
+    font-size: 18pt;
+    color: #151c29;
+  }
+  p { margin: 0 0 10px; }
+  ul, ol { margin: 0 0 12px; padding-left: 20px; }
+  li { margin: 0 0 4px; }
+  li strong, p strong { color: #151c29; }
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    background: #f3f5f8;
+    padding: 0 4px;
+    border-radius: 3px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 14px;
+    font-size: 10.5pt;
+    break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid #d7dde6;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #151c29; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f7f8fb; }
+  figure {
+    margin: 8px 0 14px;
+    break-inside: avoid;
+  }
+  img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 225mm;
+    margin: 0 auto;
+    border: 1px solid #d7dde6;
+    border-radius: 6px;
+  }
+  figcaption {
+    margin-top: 4px;
+    color: #667085;
+    font-size: 9.5pt;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<h1>BOKT Lombard — istifadəçi təlimatı</h1>
+<p>Bu sənəd sistemin gündəlik ekranlarını izah edir. Yuxarıdakı tarix kompüterin tarixi deyil, bankın <strong>sistem tarixi</strong>dir. Məbləğlər qəpiklə, faizlər dörd rəqəm dəqiqliyi ilə saxlanır.</p>
+<p>Sol menyuda yalnız icazəniz olan bölmələr görünür. Admin bütün menyunu görür.</p>
+<h2>Giriş</h2>
+<figure><img src="screens/01-giris.png" alt="Giriş ekranı"><figcaption>Giriş ekranı</figcaption></figure>
+<ol><li>İstifadəçi adını və şifrəni yazın.</li><li><strong>Daxil ol</strong> düyməsinə basın.</li></ol>
+<p>Lokal yoxlama hesabları:</p>
+<table><thead><tr><th>İstifadəçi</th><th>Şifrə</th><th>Nə görür</th></tr></thead><tbody><tr><td>admin</td><td>Admin123!</td><td>Bütün bölmələr</td></tr><tr><td>operator</td><td>Operator123!</td><td>Əməliyyat menyusu, icazə səhifəsi yoxdur</td></tr><tr><td>kassir</td><td>Kassir123!</td><td>Operatorla eyni menyu, kassaya yazma yoxdur</td></tr></tbody></table>
+<p>Səhv şifrə cəhdi sayılır. Limit dolanda hesab kilidlənir. Admin istifadəçi kartında yeni şifrə yazıb <strong>Şifrəni sıfırla və səhv sayını təmizlə</strong> işarəsini qoyaraq hesabı açır. Yeni şifrə ən azı 8 simvol olmalıdır.</p>
+<p>Çıxış üçün yuxarı sağdakı <strong>Çıxış</strong> düyməsindən istifadə edin.</p>
+<h2>Əməliyyat paneli</h2>
+<figure><img src="screens/02-panel.png" alt="Əməliyyat paneli"><figcaption>Əməliyyat paneli</figcaption></figure>
+<p>Panel filial, istifadəçi, müştəri, kredit məhsulu, kredit və təminat sayını göstərir. Rəqəmlər bazadakı faktiki saydır.</p>
+<h2>Filiallar</h2>
+<figure><img src="screens/03-filiallar.png" alt="Filial siyahısı"><figcaption>Filial siyahısı</figcaption></figure>
+<p>Siyahıda kod, ad, telefon, direktor və ünvan görünür. <strong>Axtar</strong> xanasına ad və ya telefonun bir hissəsini yazıb Enter basın. <strong>Yeni filial</strong> yeni kart açır.</p>
+<figure><img src="screens/04-filial.png" alt="Filial kartı"><figcaption>Filial kartı</figcaption></figure>
+<p>Məcburi sahələr ad, telefon və ünvandır. <strong>Baş ofis</strong> yalnız bir filialda ola bilər: yeni filialı baş ofis etsəniz, əvvəlki baş ofis adi filiala çevrilir.</p>
+<p><strong>Yadda saxla</strong> dəyişikliyi yazır. Yeni kart yaradılandan sonra yaşıl «Yadda saxlandı» yazısı kartın üzərində qalır. <strong>Sil</strong> filialı silir. Kreditə bağlı filial silinmir.</p>
+<h2>İstifadəçilər</h2>
+<figure><img src="screens/05-istifadeciler.png" alt="İstifadəçi siyahısı"><figcaption>İstifadəçi siyahısı</figcaption></figure>
+<p>Hər sətir adı, telefonu, filialı, statusu və admin olub-olmadığını göstərir.</p>
+<figure><img src="screens/06-istifadeci.png" alt="İstifadəçi kartı"><figcaption>İstifadəçi kartı</figcaption></figure>
+<ul><li><strong>Aktiv / Aktiv deyil</strong> — deaktiv istifadəçi girə bilmir.</li><li><strong>Admin</strong> yalnız admin verə bilər. Admin icazə kodlarından yan keçir.</li><li>İstifadəçi adı 3–32 simvoldur və təkrar oluna bilməz.</li><li>Filial və tam ad məcburidir.</li><li><strong>Rollar</strong> həmin şəxsin menyusunu müəyyən edir. Məsələn Operator rolu müştəri və kredit yarada bilir, günü bağlaya və krediti kassaya yaza bilmir.</li><li>Öz hesabınızı silə bilməzsiniz.</li></ul>
+<h2>Müştərilər</h2>
+<figure><img src="screens/07-musteriler.png" alt="Müştəri siyahısı"><figcaption>Müştəri siyahısı</figcaption></figure>
+<p>Axtarış ad, müştəri nömrəsi və FİN/VÖEN üzrə işləyir. Yeni fiziki müştəri nömrəsi 100001-dən davam edir.</p>
+<figure><img src="screens/08-musteri.png" alt="Müştəri kartı"><figcaption>Müştəri kartı</figcaption></figure>
+<p>Dörd növ var:</p>
+<table><thead><tr><th>Növ</th><th>Unikal nömrə</th><th>Əlavə qayda</th></tr></thead><tbody><tr><td>Fiziki</td><td>FİN, 7 simvol</td><td>Ad, soyad, ata adı və sənəd məcburidir</td></tr><tr><td>Hüquqi şəxs</td><td>VÖEN, 10 rəqəm</td><td>Fəaliyyət kodu, sektor və əlaqəli şəxslər</td></tr><tr><td>Sahibkar</td><td>FİN və ya VÖEN</td><td>Həm sənəd, həm fəaliyyət kodu və sektor</td></tr><tr><td>Maliyyə qurumu</td><td>VÖEN, 10 rəqəm</td><td>Tam ad və ünvan</td></tr></tbody></table>
+<p>Ümumi qaydalar:</p>
+<ul><li>Tam ad həmişə məcburidir. Fiziki və sahibkarda soyad, ad və ata adından özü yığılır.</li><li>Qeydiyyat və faktiki ünvan məcburidir. «Faktiki ünvan qeydiyyat ünvanı ilə eynidir» faktiki ünvanı köçürür.</li><li>Telefon varsa, onlardan yalnız biri əsas ola bilər.</li><li>İş yeri varsa, yalnız biri <strong>Əsas</strong> ola bilər. İki əsas iş yeri saxlanmır.</li><li>Hüquqi şəxsdə təsisçi, icraçı və imzalayan əlavə olunur. Pay yalnız təsisçiyə yazılır və təsisçi paylarının cəmi 100 olmalıdır.</li><li><strong>Fayllar</strong> səhifəsi kart yadda saxlandıqdan sonra açılır. Fayl tipi yazın, faylı seçin, <strong>Yüklə</strong> basın. Siyahıdakı <strong>Yüklə</strong> həmin faylı geri açır.</li><li><strong>Əlavə sahələr</strong> dinamik sahələr bölməsində müştəri üçün açdığınız sahələrdir.</li></ul>
+<h2>Kredit məhsulları</h2>
+<figure><img src="screens/09-mehsullar.png" alt="Məhsul siyahısı"><figcaption>Məhsul siyahısı</figcaption></figure>
+<p>Məhsul kodu boş qalsa növbəti nömrə verilir. Siyahı kodu, adı, kredit tipini və kontrolun işləyib-işləmədiyini göstərir.</p>
+<figure><img src="screens/10-mehsul.png" alt="Məhsul konstruktoru"><figcaption>Məhsul konstruktoru</figcaption></figure>
+<ul><li><strong>Kredit</strong> və ya <strong>Kredit xətti</strong>. Hazırda verilən kredit annuitet qrafiklə işləyir.</li><li><strong>Kontrol işləsin</strong> olanda məbləğ, müddət və faiz məhsulun şərtinə sığmalıdır. Müddət günlə hesablanır: ay × 30 + əlavə gün, və məhsulun maksimum günündən böyük ola bilməz.</li><li><strong>Məhsul şərtləri</strong> — valyuta üzrə məbləğ, müddət və illik faiz aralığı. Minimum maksimumdan böyük ola bilməz.</li><li><strong>DTI şərtləri</strong> — maaş aralığı və yol verilən borc/gəlir faizi. Müştərinin gəliri 0-dırsa bu yoxlama keçilir.</li><li><strong>LTV şərtləri</strong> — girov növü, kredit valyutası və təminat valyutası üçün limit. Kredit kassaya yazılanda təminat bu limiti örtməlidir.</li></ul>
+<h2>Kreditin verilməsi</h2>
+<figure><img src="screens/11-kreditler.png" alt="Kredit siyahısı"><figcaption>Kredit siyahısı</figcaption></figure>
+<p>Siyahı üfüqi sürüşür. Əsas sütunlar əməliyyat kodu, istifadəçi, filial, müştəri, müqavilə, kredit nömrəsi, məbləğ, faiz, komissiya, müddət və statusdur. <strong>Axtar</strong> kredit, müqavilə və müştəri nömrəsinə baxır.</p>
+<figure><img src="screens/12-hesabat.png" alt="Hesabat"><figcaption>Hesabat</figcaption></figure>
+<p><strong>Hesabat</strong> düyməsi siyahının hazırkı nəticəsini yükləyir:</p>
+<ul><li><strong>Excel</strong> — nöqtəli vergüllə ayrılmış cədvəl.</li><li><strong>HTML</strong> — brauzerdə açılan cədvəl.</li><li><strong>PDF</strong> — çap pəncərəsi. Oradan «PDF kimi saxla» seçin. Pəncərə bloklansa, çap faylı yüklənir.</li><li><strong>E-poçt</strong> — ünvan soruşur və məktub faylı yükləyir. Onu poçt proqramında açıb göndərin. Sistemin öz poçt serveri yoxdur.</li></ul>
+<figure><img src="screens/13-kredit.png" alt="Kredit kartı və ödəmə cədvəli"><figcaption>Kredit kartı və ödəmə cədvəli</figcaption></figure>
+<p>Yeni kreditdə müqavilə və kredit nömrəsi özü gəlir (<code>CONTRACT_n</code>, <code>LOAN_n</code>). Müştəri, filial, məbləğ, valyuta, illik faiz, cərimə faizi, məhsul, verilmə tarixi və müddət doldurulur. Güzəşt müddəti kredit müddətindən kiçik olmalıdır. Qrafik tipi annuitetdir.</p>
+<p>Status <strong>WAITING</strong> olanda kart dəyişir. <strong>Cədvəl yarat</strong> ödəmə cədvəlini qurur:</p>
+<ul><li>Aylıq ödəniş iki qəpiyə qədər yuvarlaqlaşır.</li><li>Güzəşt aylarında əsas borc 0 olur, yalnız faiz yazılır.</li><li>Son sətirdə qalıq 0.00 olur. Son ayın cəmi bir neçə qəpik fərqlənə bilər, çünki qalıq son sətirə yığılır.</li></ul>
+<p><strong>Kassaya yaz</strong> yalnız cədvəl yarandıqdan sonra işləyir. Bundan sonra status <strong>POSTED</strong> olur, məbləğ və şərtlər dəyişmir, kart silinmir. Kassaya yazma icazəsi olmayan istifadəçi bu düyməni görmür.</p>
+<p>Məhsul kontrolu açıqdırsa, həddən kənar məbləğ, müddət və faiz saxlanmır. Təminatlar səhifəsindən mövcud təminatı kreditə bağlamaq olar. Bağlanan məbləğ təminatın likvid dəyərindən böyük ola bilməz.</p>
+<p>Kassaya yazılış belə keçir: kredit portfelinə debet, kassadan kredit. Komissiya varsa kassadan komissiya gəlirinə yazılır. AZN təminat üçün balansdankənar girov memo-su da keçir.</p>
+<h2>Təminatlar</h2>
+<figure><img src="screens/14-teminat.png" alt="Təminat kartı"><figcaption>Təminat kartı</figcaption></figure>
+<p>Beş növ var: qiymətli əşyalar, daşınmaz əmlak, nəqliyyat, digər əşyalar və zamin. Hamısında unikal nömrə, sahib, qiymətləndirən, qiymətləndirmə vaxtı, bazar qiyməti, likvid dəyər və valyuta var. Unikal nömrə təkrar ola bilməz.</p>
+<p>Qiymətli əşyada sətir əlavə olunur: ad, qram, əyar, bir qramın qiyməti, say, daşın çəkisi, xalis və ümumi çəki. Xalis çəki boşdursa, ümumi çəkidən daşın çəkisi çıxılır. Likvid dəyər boşdursa, xalis çəki qram qiymətinə vurulur. Sayı bu vurmaya qarışmır. Sətirlər olanda kartın likvid dəyəri sətirlərin cəmi olur.</p>
+<p><strong>Əlaqəli kreditlər</strong> səhifəsindən təminatı gözləyən və ya verilmiş kreditə bağlayın. Məbləğ likvid dəyərdən böyük ola bilməz.</p>
+<p>Verilmiş kreditə bağlı təminat silinmir. Sistem bunu mətnlə bildirir.</p>
+<h2>Günsonu prosesi</h2>
+<figure><img src="screens/15-gunsonu.png" alt="Günsonu"><figcaption>Günsonu</figcaption></figure>
+<p>Ekran cari sistem tarixini və bağlanmış günlərin jurnalını göstərir. <strong>Günü bağla</strong> həmin günü <code>CLOSED</code> yazır və sistemi növbəti günə keçirir. Bu addım faiz və cərimə hesablamır. Düymə yalnız <code>eod.run</code> icazəsi olanda görünür. Eyni gün ikinci dəfə bağlanmır, çünki bağlanandan sonra tarix irəliləyir.</p>
+<h2>Hesablar</h2>
+<figure><img src="screens/16-hesablar.png" alt="Hesablar və yazılışlar"><figcaption>Hesablar və yazılışlar</figcaption></figure>
+<p>Hər yazılış eyni məbləğdə debet və kreditdən ibarətdir. Ekrandakı qalıqlar:</p>
+<table><thead><tr><th>Kod</th><th>Ad</th><th>Mənası</th></tr></thead><tbody><tr><td>1000</td><td>Kassa</td><td>Filialın pulu</td></tr><tr><td>1100</td><td>Kredit portfeli</td><td>Verilmiş kreditlər</td></tr><tr><td>1200</td><td>Faiz tələbi</td><td>Hesablanacaq faiz</td></tr><tr><td>1300</td><td>Cərimə tələbi</td><td>Hesablanacaq cərimə</td></tr><tr><td>4000</td><td>Komissiya gəliri</td><td>Tutulmuş komissiya</td></tr><tr><td>9000</td><td>Balansdankənar girov</td><td>Girov memo-su</td></tr><tr><td>9100</td><td>Girov kontr-hesabı</td><td>Girovun əks yazılışı</td></tr></tbody></table>
+<p>Manual yazılışda referans, iş tarixi, məbləğ, debet və kredit hesabı yazılır. İş tarixi açılışda sistem tarixinə bərabər olur. Olmayan hesab rədd edilir. Eyni referansla təkrar basanda məbləğ ikinci dəfə keçmir.</p>
+<p>Bu düymə <code>ledger.post</code> icazəsi olmayan istifadəçidə gizlənir. Qalıqları görmək üçün <code>ledger.read</code> kifayətdir.</p>
+<h2>İcazələr</h2>
+<figure><img src="screens/17-icazeler.png" alt="İcazələr"><figcaption>İcazələr</figcaption></figure>
+<p>Rolun üzərinə mətn kodu yazılır, məsələn <code>customer.read</code> və ya <code>loan.post</code>. Kod <code>modul.əməliyyat</code> şəklində olmalıdır. Səhv mətn əlavə olunmur.</p>
+<p><strong>CRUD əlavə et</strong> bir resursun create, read, update və delete kodlarını bir dəfəyə yığır. Məsələn <code>collateral</code>.</p>
+<p>Yadda saxlamadan kod siyahıda qalsa da, bazaya düşmür. İcazəsi olmayan şəxs bu ünvanı birbaşa açsa, panelə qayıdır və «Bu səhifəyə icazəniz yoxdur» görür.</p>
+<p>Əsas sərhədlər:</p>
+<ul><li><code>loan.post</code> — krediti kassaya yazır.</li><li><code>loan.delete</code> — gözləyən krediti silir.</li><li><code>eod.run</code> — günü bağlayır.</li><li><code>ledger.post</code> — manual yazılış keçirir.</li><li><code>dictionary.manage</code> və <code>field.manage</code> — lüğət və dinamik sahəni dəyişir.</li></ul>
+<h2>Dinamik sahələr və lüğətlər</h2>
+<figure><img src="screens/18-saheler.png" alt="Sahələr və lüğətlər"><figcaption>Sahələr və lüğətlər</figcaption></figure>
+<p><strong>Sahə</strong> yeni xananı proqram yeniləmədən əlavə edir. Varlıq müştəri, məhsul, filial və ya istifadəçi ola bilər. Kod kiçik latın hərfləri ilə yazılır. Tip mətn, ədəd, məbləğ, tarix və ya bəli/xeyr ola bilər. Məcburi sahə saxlananda boş qala bilməz. Müştəri kartının <strong>Əlavə sahələr</strong> səhifəsində görünür.</p>
+<p><strong>Lüğət</strong> açılan siyahıların kodudur: valyuta, sektor, fəaliyyət kodu, girov növü, əyar, ölçü vahidi və standart. Qrup, kod və ad yazılır. <strong>Sil</strong> kodu siyahıdan çıxarır. Eyni qrup və kodu yenidən saxlasanız, sətir geri qayıdır.</p>
+</body>
+</html>

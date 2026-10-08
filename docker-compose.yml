@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ebokt-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ebokt
+      POSTGRES_PASSWORD: ebokt
+      POSTGRES_DB: ebokt
+    ports:
+      - "5433:5432"
+    volumes:
+      - ebokt_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ebokt -d ebokt"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  ebokt_pg:
